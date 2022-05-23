@@ -1,7 +1,7 @@
 ﻿
 namespace Antivirus
 {
-    partial class Form1
+    partial class FormMain
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -29,36 +29,27 @@ namespace Antivirus
         /// </summary>
         private void InitializeComponent()
         {
-            this.fileTB = new System.Windows.Forms.TextBox();
             this.md5TB = new System.Windows.Forms.TextBox();
             this.scanButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fileLabel = new System.Windows.Forms.Label();
-            this.md5label = new System.Windows.Forms.Label();
-            this.statusLabel = new System.Windows.Forms.Label();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.поискToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.md5label = new System.Windows.Forms.Label();
+            this.statusLabel = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // fileTB
-            // 
-            this.fileTB.Location = new System.Drawing.Point(54, 42);
-            this.fileTB.Name = "fileTB";
-            this.fileTB.Size = new System.Drawing.Size(306, 20);
-            this.fileTB.TabIndex = 0;
-            // 
             // md5TB
             // 
-            this.md5TB.Location = new System.Drawing.Point(54, 69);
+            this.md5TB.Location = new System.Drawing.Point(54, 51);
             this.md5TB.Name = "md5TB";
             this.md5TB.Size = new System.Drawing.Size(306, 20);
             this.md5TB.TabIndex = 1;
             // 
             // scanButton
             // 
-            this.scanButton.Location = new System.Drawing.Point(273, 111);
+            this.scanButton.Location = new System.Drawing.Point(273, 83);
             this.scanButton.Name = "scanButton";
             this.scanButton.Size = new System.Drawing.Size(87, 23);
             this.scanButton.TabIndex = 2;
@@ -72,36 +63,9 @@ namespace Antivirus
             this.файлToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(398, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(384, 24);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // fileLabel
-            // 
-            this.fileLabel.AutoSize = true;
-            this.fileLabel.Location = new System.Drawing.Point(12, 42);
-            this.fileLabel.Name = "fileLabel";
-            this.fileLabel.Size = new System.Drawing.Size(36, 13);
-            this.fileLabel.TabIndex = 4;
-            this.fileLabel.Text = "Файл";
-            // 
-            // md5label
-            // 
-            this.md5label.AutoSize = true;
-            this.md5label.Location = new System.Drawing.Point(12, 69);
-            this.md5label.Name = "md5label";
-            this.md5label.Size = new System.Drawing.Size(30, 13);
-            this.md5label.TabIndex = 5;
-            this.md5label.Text = "MD5";
-            // 
-            // statusLabel
-            // 
-            this.statusLabel.AutoSize = true;
-            this.statusLabel.Location = new System.Drawing.Point(51, 101);
-            this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(64, 13);
-            this.statusLabel.TabIndex = 6;
-            this.statusLabel.Text = "Состояние:";
             // 
             // файлToolStripMenuItem
             // 
@@ -115,27 +79,43 @@ namespace Antivirus
             // поискToolStripMenuItem
             // 
             this.поискToolStripMenuItem.Name = "поискToolStripMenuItem";
-            this.поискToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.поискToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.поискToolStripMenuItem.Text = "Поиск";
             this.поискToolStripMenuItem.Click += new System.EventHandler(this.поискToolStripMenuItem_Click);
             // 
             // выходToolStripMenuItem
             // 
             this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            this.выходToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.выходToolStripMenuItem.Text = "Выход";
+            // 
+            // md5label
+            // 
+            this.md5label.AutoSize = true;
+            this.md5label.Location = new System.Drawing.Point(12, 51);
+            this.md5label.Name = "md5label";
+            this.md5label.Size = new System.Drawing.Size(30, 13);
+            this.md5label.TabIndex = 5;
+            this.md5label.Text = "MD5";
+            // 
+            // statusLabel
+            // 
+            this.statusLabel.AutoSize = true;
+            this.statusLabel.Location = new System.Drawing.Point(51, 83);
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(64, 13);
+            this.statusLabel.TabIndex = 6;
+            this.statusLabel.Text = "Состояние:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(398, 141);
+            this.ClientSize = new System.Drawing.Size(384, 141);
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.md5label);
-            this.Controls.Add(this.fileLabel);
             this.Controls.Add(this.scanButton);
             this.Controls.Add(this.md5TB);
-            this.Controls.Add(this.fileTB);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
@@ -149,15 +129,12 @@ namespace Antivirus
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox fileTB;
         private System.Windows.Forms.TextBox md5TB;
         private System.Windows.Forms.Button scanButton;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem поискToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
-        private System.Windows.Forms.Label fileLabel;
         private System.Windows.Forms.Label md5label;
         private System.Windows.Forms.Label statusLabel;
     }
