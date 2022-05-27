@@ -107,7 +107,7 @@ namespace Antivirus
             this.statusLabel.TabIndex = 6;
             this.statusLabel.Text = "Состояние:";
             // 
-            // Form1
+            // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -118,8 +118,9 @@ namespace Antivirus
             this.Controls.Add(this.md5TB);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
+            this.Name = "FormMain";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Antivirus";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

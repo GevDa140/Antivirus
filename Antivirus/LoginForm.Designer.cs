@@ -104,6 +104,7 @@ namespace Antivirus
             this.Controls.Add(this.emailTextbox);
             this.Controls.Add(this.passwordTextbox);
             this.Name = "LoginForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "loginForm";
             this.ResumeLayout(false);
             this.PerformLayout();

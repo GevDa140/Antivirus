@@ -13,9 +13,8 @@ namespace Antivirus
     public partial class FormMain : Form
     {
         SqlConnection conn = new SqlConnection(Program.connString);
-        string rootPath;
-        string[] files;
-        string[] hashes;
+        List<string> files = new List<string>();
+        List<string> hashes = new List<string>();
         List<string> viruses = new List<string>();
 
         public FormMain()
@@ -44,17 +43,31 @@ namespace Antivirus
             //    hashes[i] = GetMD5FromFile(files[i]);
             //}
 
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            DialogResult res = fbd.ShowDialog();
+            if (res == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+            {
+                try
+                {
+                    files = Directory.GetFiles(fbd.SelectedPath, "*.*", SearchOption.AllDirectories).ToList();
+                }
+                catch (Exception err)
+                {
+                    MessageBox.Show(err.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                //MessageBox.Show("Files found: " + files.Length.ToString(), "Message");
+            }
+
 
             //Директория
-            hashes = files;
             int count = 0;
-            for (int i = 0; i < files.Length; i++)
+            for (int i = 0; i < files.Count; i++)
             {
                 string sql = @"SELECT count(*) FROM Signatures WHERE signature = @signature";
                 SqlCommand command = conn.CreateCommand();
                 command.CommandText = sql;
                 conn.Open();
-                hashes[i] = GetMD5FromFile(files[i]);
+                hashes.Add(GetMD5FromFile(files[i]));
                 command.Parameters.AddWithValue("@signature", hashes[i]);
                 int sqlResult = Convert.ToInt32(command.ExecuteScalar());
                 conn.Close();
@@ -67,9 +80,23 @@ namespace Antivirus
             if (viruses.Count > 0)
             {
                 var message = string.Join(Environment.NewLine, viruses);
-                MessageBox.Show("Количество найденных вирусов: " + count + "\nЗаражённые файлы: \n" + message);
+                var result = MessageBox.Show("Количество найденных вирусов: " + count + "\nЗаражённые файлы: \n" + message + "\nУдалить заражённые файлы?", "Найдены вирусы!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if(result == DialogResult.Yes)
+                {
+                    foreach (var virus in viruses)
+                    {
+                        File.Delete(virus);
+                    }
+                    MessageBox.Show("Найденные вирусы успешно удалены!");
+                }
             }
-
+            else
+            {
+                MessageBox.Show("Вирусов не найдено!");
+            }
+            files.Clear();
+            hashes.Clear();
+            viruses.Clear();
             //Один файл
             //string sql = @"SELECT count(*) FROM Signatures WHERE signature = @signature";
             //SqlCommand command = conn.CreateCommand();
@@ -100,7 +127,14 @@ namespace Antivirus
             DialogResult result = fbd.ShowDialog();
             if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
             {
-                files = Directory.GetFiles(fbd.SelectedPath, "*.*", SearchOption.AllDirectories);
+                try
+                {
+                    files = Directory.GetFiles(fbd.SelectedPath, "*.*", SearchOption.AllDirectories).ToList();
+                }
+                catch (Exception err)
+                {
+                    MessageBox.Show(err.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 //MessageBox.Show("Files found: " + files.Length.ToString(), "Message");
             }
 
