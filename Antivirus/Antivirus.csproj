@@ -51,11 +51,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AntivirusDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="FormMain.cs">
+    <Compile Include="FormMainAdmin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormMain.Designer.cs">
-      <DependentUpon>FormMain.cs</DependentUpon>
+    <Compile Include="FormMainAdmin.Designer.cs">
+      <DependentUpon>FormMainAdmin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormMainUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMainUser.Designer.cs">
+      <DependentUpon>FormMainUser.cs</DependentUpon>
     </Compile>
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
@@ -65,8 +71,17 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FormMain.resx">
-      <DependentUpon>FormMain.cs</DependentUpon>
+    <Compile Include="RegisterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegisterForm.Designer.cs">
+      <DependentUpon>RegisterForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="FormMainAdmin.resx">
+      <DependentUpon>FormMainAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMainUser.resx">
+      <DependentUpon>FormMainUser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
@@ -80,6 +95,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="RegisterForm.resx">
+      <DependentUpon>RegisterForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="AntivirusDataSet.xsc">
       <DependentUpon>AntivirusDataSet.xsd</DependentUpon>
     </None>

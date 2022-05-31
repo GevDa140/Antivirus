@@ -29,6 +29,7 @@ namespace Antivirus
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.passwordTextbox = new System.Windows.Forms.TextBox();
             this.emailTextbox = new System.Windows.Forms.TextBox();
             this.loginButton = new System.Windows.Forms.Button();
@@ -103,9 +104,10 @@ namespace Antivirus
             this.Controls.Add(this.loginButton);
             this.Controls.Add(this.emailTextbox);
             this.Controls.Add(this.passwordTextbox);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "loginForm";
+            this.Text = "Авторизация";
             this.ResumeLayout(false);
             this.PerformLayout();
 
