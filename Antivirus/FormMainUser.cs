@@ -23,12 +23,20 @@ namespace Antivirus
 
         public string GetMD5FromFile(string filePath)
         {
-            using (var md5 = MD5.Create())
+            try
             {
-                using (var stream = File.OpenRead(filePath))
+                using (var md5 = MD5.Create())
                 {
-                    return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", string.Empty).ToLower();
+                    using (var stream = File.OpenRead(filePath))
+                    {
+                        return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", string.Empty).ToLower();
+                    }
                 }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return err.Message;
             }
         }
 
@@ -76,6 +84,9 @@ namespace Antivirus
                 }
                 if (viruses.Count > 0)
                 {
+                    DeletingForm df = new DeletingForm(viruses);
+                    df.ShowDialog();
+                    /*
                     var message = string.Join(Environment.NewLine, viruses);
                     var result = MessageBox.Show("Количество найденных вирусов: " + count + "\nЗаражённые файлы: \n" + message + "\nУдалить заражённые файлы?", "Найдены вирусы!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (result == DialogResult.Yes)
@@ -86,6 +97,7 @@ namespace Antivirus
                         }
                         MessageBox.Show("Найденные вирусы успешно удалены!");
                     }
+                    */
                 }
                 else
                 {

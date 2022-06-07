@@ -24,12 +24,20 @@ namespace Antivirus
 
         public string GetMD5FromFile(string filePath)
         {
-            using (var md5 = MD5.Create())
+            try
             {
-                using (var stream = File.OpenRead(filePath))
+                using (var md5 = MD5.Create())
                 {
-                    return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", string.Empty).ToLower();
+                    using (var stream = File.OpenRead(filePath))
+                    {
+                        return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", string.Empty).ToLower();
+                    }
                 }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return err.Message;
             }
         }
 
@@ -147,6 +155,9 @@ namespace Antivirus
             {
                 if (viruses.Count > 0)
                 {
+                    DeletingForm df = new DeletingForm(viruses);
+                    df.ShowDialog();
+                    /*
                     var message = string.Join(Environment.NewLine, viruses);
                     var result = MessageBox.Show("Количество найденных вирусов: " + count + "\nЗаражённые файлы: \n" + message + "\nУдалить заражённые файлы?", "Найдены вирусы!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (result == DialogResult.Yes)
@@ -157,6 +168,7 @@ namespace Antivirus
                         }
                         MessageBox.Show("Найденные вирусы успешно удалены!");
                     }
+                    */
                 }
                 else
                 {
@@ -188,16 +200,28 @@ namespace Antivirus
             {
                 flag = false;
             }
-            string sql = @"INSERT INTO Signatures (signature) VALUES (@signature)";
-            SqlCommand command = conn.CreateCommand();
-            command.CommandText = sql;
-            command.Parameters.AddWithValue("@signature", hash);
-            conn.Open();
-            int sqlAdd = Convert.ToInt32(command.ExecuteScalar());
-            conn.Close();
             if (flag)
             {
-                MessageBox.Show("Сигнатура успешно добавлена!");
+                string sql = @"INSERT INTO Signatures (signature) VALUES (@signature)";
+                string check = @"SELECT count(*) FROM Signatures WHERE signature = @signature";
+                SqlCommand command = conn.CreateCommand();
+                SqlCommand cmd = conn.CreateCommand();
+                command.CommandText = sql;
+                cmd.CommandText = check;
+                command.Parameters.AddWithValue("@signature", hash);
+                cmd.Parameters.AddWithValue("@signature", hash);
+                conn.Open();
+                int sqlCheck = Convert.ToInt32(cmd.ExecuteScalar());
+                if (sqlCheck > 0)
+                {
+                    MessageBox.Show("Сигнатура уже существует!", "Ошибка добавления!");
+                }
+                else
+                {
+                    command.ExecuteNonQuery();
+                    MessageBox.Show("Сигнатура успешно добавлена!");
+                }
+                conn.Close();
             }
             else
             {
@@ -232,21 +256,44 @@ namespace Antivirus
                 for (int i = 0; i < files.Count; i++)
                 {
                     string sql = @"INSERT INTO Signatures (signature) VALUES (@signature)";
+                    string check = @"SELECT count(*) FROM Signatures WHERE signature = @signature";
                     SqlCommand command = conn.CreateCommand();
+                    SqlCommand cmd = conn.CreateCommand();
                     command.CommandText = sql;
+                    cmd.CommandText = check;
                     hashes.Add(GetMD5FromFile(files[i]));
-                    command.Parameters.AddWithValue("@signature", hashes[i]);
+                    cmd.Parameters.AddWithValue(@"signature", hashes[i]);
                     conn.Open();
-                    command.ExecuteNonQuery();
-                    conn.Close();
+                    int sqlCheck = Convert.ToInt32(cmd.ExecuteScalar());
+                    if (sqlCheck > 0)
+                    {
+                        conn.Close();
+                    }
+                    else
+                    {
+                        command.Parameters.AddWithValue("@signature", hashes[i]);
+                        command.ExecuteNonQuery();
+                        viruses.Add(files[i]);
+                        conn.Close();
+                    }
+                }                
+                if (viruses.Count > 0)
+                {
+                    var message = string.Join(Environment.NewLine, viruses);
+                    MessageBox.Show("В базу данных добавлены сигнатуры следующих файлов:\n" + message, "База заражённых файлов обновлена!");
                 }
-                var message = string.Join(Environment.NewLine, files);
-                MessageBox.Show("В базу данных добавлены сигнатуры следующих файлов:\n" + message, "База заражённых файлов обновлена!");
+                else
+                {
+                    MessageBox.Show("Все сигнатуры уже существуют!", "Ошибка добавления!");
+                }
             }
             else
             {
                 MessageBox.Show("Вы не выбрали файл!", "Ошибка!");
             }
+            files.Clear();
+            hashes.Clear();
+            viruses.Clear();
         }
 
         private void FormMainAdmin_FormClosing(object sender, FormClosingEventArgs e)
